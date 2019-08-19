@@ -7,8 +7,11 @@ import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.junit.jupiter.api.Test;
 
-import java.io.InputStream;
+import java.io.*;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.zip.ZipInputStream;
 
 
@@ -139,6 +142,131 @@ public class TestProcessDef {
 
         //根据流程部署id删除，如果正在运行，同样会将正在运行的删除
 //        repositoryService.deleteDeploymentCascade();
+    }
+
+    /**
+     * 查看流程图 根据流程定义ID
+     */
+    @Test
+    public void viewProcessImg(){
+        RepositoryService repositoryService=processEngine.getRepositoryService();
+
+        //根据流程定义id查询
+        String processDefinitionId="HelloWorld:1:4";
+        InputStream processDiagram = repositoryService.getProcessDiagram(processDefinitionId);
+        File file=new File("d:/Download/HelloWorld.png");
+
+        try {
+            BufferedOutputStream bufferedOutputStream =new BufferedOutputStream(new FileOutputStream(file));
+
+            int len=0;
+            byte[] b=new byte[1024];
+            while ((len=processDiagram.read(b))!=-1){
+                bufferedOutputStream.write(b,0,len);
+                bufferedOutputStream.flush();
+            }
+            bufferedOutputStream.close();
+            processDiagram.close();
+
+            System.out.println("查询成功");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 查询流程图 根据流程部署Id查询
+     */
+
+    @Test
+    public void viewProcessdef(){
+        RepositoryService repositoryService=processEngine.getRepositoryService();
+
+        String processDeploymentId="1";
+
+        ProcessDefinition processDefinition=
+                repositoryService.createProcessDefinitionQuery().deploymentId(processDeploymentId)
+                .singleResult();
+        String definitionId=processDefinition.getId();
+
+        InputStream processDiagram =repositoryService.getProcessDiagram(definitionId);
+
+        File file=new File("d:/Download/"+processDefinition.getName()+".png");
+
+        try {
+            BufferedOutputStream bufferedOutputStream=new BufferedOutputStream(new FileOutputStream(file));
+
+            int len=0;
+            byte[] bytes=new byte[1024];
+            while ((len=processDiagram.read(bytes))!=-1){
+                bufferedOutputStream.write(bytes,0,len);
+                bufferedOutputStream.flush();
+            }
+
+            bufferedOutputStream.close();
+            processDiagram.close();
+
+            System.out.println("查询成功");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 查询最新版本的流程定义
+     */
+
+    @Test
+    public void viewLastVersionDef(){
+        Map<String,ProcessDefinition> map=new HashMap<>();
+
+        //查询所有的流程定义根据版本号升序
+        RepositoryService repositoryService=processEngine.getRepositoryService();
+
+        List<ProcessDefinition> processDefinitions =
+                repositoryService.createProcessDefinitionQuery().orderByProcessDefinitionVersion().asc().list();
+
+        for (ProcessDefinition processDef:processDefinitions
+             ) {
+            map.put(processDef.getKey(),processDef);
+        }
+
+        Collection<ProcessDefinition> values=map.values();
+
+        for (ProcessDefinition pdef:values
+             ) {
+            System.out.println("流程定义ID："+pdef.getId());
+            System.out.println("流程定义名称："+pdef.getName());
+            System.out.println("流程定义部署ID："+pdef.getDeploymentId());
+            System.out.println("流程定义版本："+pdef.getVersion());
+            System.out.println("流程定义bpmn文件名称："+pdef.getResourceName());
+            System.out.println("流程定义png文件名称："+pdef.getDiagramResourceName());
+        }
+    }
+
+    /**
+     * 删除key相同，但版本不同的流程定义
+     */
+
+    @Test
+    public void deleteProcessDefByKey(){
+        String pdefKey="HelloWorld";
+        RepositoryService repositoryService=processEngine.getRepositoryService();
+
+        //根据key查询流程集合
+        List<ProcessDefinition> processDefinitions =
+                repositoryService.createProcessDefinitionQuery().processDefinitionKey(pdefKey).list();
+
+        for (ProcessDefinition prodef:processDefinitions
+             ) {
+            String deploymentId=prodef.getDeploymentId();
+            repositoryService.deleteDeployment(deploymentId,true);
+        }
+
     }
 
 
