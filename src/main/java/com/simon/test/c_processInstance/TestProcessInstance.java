@@ -1,6 +1,8 @@
 package com.simon.test.c_processInstance;
 
 import org.activiti.engine.*;
+import org.activiti.engine.history.HistoricProcessInstance;
+import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
@@ -162,7 +164,98 @@ public class TestProcessInstance {
      * 查询流程状态
      * 更新业务表里面的状态
      */
+    @Test
     public void getState(){
+        RuntimeService runtimeService=processEngine.getRuntimeService();
+        /**
+         * 已知流程实例ID
+         */
+        String processInstanceId="2501";
+
+        ProcessInstance processInstance=runtimeService.createProcessInstanceQuery()
+                .processInstanceId(processInstanceId).singleResult();
+        if (processInstance!=null){
+            System.out.println("流程未结束");
+        }else {
+            System.out.println("流程已结束");
+        }
+
+
+
+        /**
+         * 已知任务实例ID
+         */
+        /*String taskId="5002";
         TaskService taskService=processEngine.getTaskService();
+        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+        String taskProcessInstanceId = task.getProcessInstanceId();
+        ProcessInstance processInstance1 = runtimeService.createProcessInstanceQuery().processInstanceId(taskProcessInstanceId)
+                .singleResult();
+        if (processInstance1!=null){
+            System.out.println("流程未结束");
+        }else {
+            System.out.println("流程已结束");
+        }*/
     }
+
+    /**
+     * 查询当前的流程实例
+     */
+    @Test
+    public void queryProcessInstance(){
+        RuntimeService runtimeService=processEngine.getRuntimeService();
+        List<ProcessInstance> processInstanceList = runtimeService.createProcessInstanceQuery().list();
+        for (ProcessInstance processInstance:processInstanceList
+             ) {
+            System.out.println("流程执行实例 ID："+processInstance.getId());
+            System.out.println("流程执行实例 NAME："+processInstance.getName());
+            System.out.println("流程定义 ID："+processInstance.getProcessDefinitionId());
+            System.out.println("流程实例 ID："+processInstance.getProcessInstanceId());
+            System.out.println("##################################################");
+        }
+    }
+
+    /**
+     * 查询任务历史
+     * 查询历史表
+     */
+    @Test
+    public void queryHistoryTask(){
+
+        HistoryService historyService = processEngine.getHistoryService();
+        List<HistoricTaskInstance> historicTaskInstanceList = historyService.createHistoricTaskInstanceQuery().list();
+        if (historicTaskInstanceList!=null&&historicTaskInstanceList.size()>0){
+            for (HistoricTaskInstance histask:historicTaskInstanceList
+                 ) {
+                System.out.println("历史任务 ID："+histask.getId());
+                System.out.println("历史任务 名称："+histask.getName());
+                System.out.println("历史任务 办理人："+histask.getAssignee());
+                System.out.println("历史任务 开始时间："+histask.getStartTime());
+                System.out.println("历史任务 完成时间："+histask.getEndTime());
+                System.out.println("#############################################");
+            }
+        }
+    }
+
+    /**
+     * 查询历史流程实例ID
+     */
+    @Test
+    public void queryHistoryProcessInstance(){
+        HistoryService historyService = processEngine.getHistoryService();
+        List<HistoricProcessInstance> historicProcessInstances =
+                historyService.createHistoricProcessInstanceQuery().list();
+
+        for (HistoricProcessInstance hpi:historicProcessInstances
+             ) {
+            System.out.println("历史流程实例 id"+hpi.getId());
+            System.out.println("历史流程实例 名称"+hpi.getName());
+            System.out.println("历史流程实例 部署ID"+hpi.getDeploymentId());
+            System.out.println("历史流程实例 流程定义ID"+hpi.getProcessDefinitionId());
+            System.out.println("###########################################");
+
+        }
+
+    }
+
 }
