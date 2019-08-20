@@ -163,6 +163,6 @@ public class TestProcessInstance {
      * 更新业务表里面的状态
      */
     public void getState(){
-
+        TaskService taskService=processEngine.getTaskService();
     }
 }
