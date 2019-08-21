@@ -1,4 +1,4 @@
-package com.simon.test.e_history;
+package test.e_history;
 
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.ProcessEngine;

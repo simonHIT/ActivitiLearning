@@ -1,4 +1,4 @@
-package com.simon.test.f_sequenceFlow;
+package test.f_sequenceFlow;
 
 import org.activiti.engine.*;
 import org.activiti.engine.repository.Deployment;

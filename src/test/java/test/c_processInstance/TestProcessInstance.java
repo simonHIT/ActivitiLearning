@@ -1,4 +1,4 @@
-package com.simon.test.c_processInstance;
+package test.c_processInstance;
 
 import org.activiti.engine.*;
 import org.activiti.engine.history.HistoricProcessInstance;
@@ -8,10 +8,7 @@ import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @program: activiti

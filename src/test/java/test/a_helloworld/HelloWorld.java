@@ -1,15 +1,11 @@
-package com.simon.test.a_helloworld;
+package test.a_helloworld;
 
-import java.util.List;
-
-import org.activiti.engine.ProcessEngine;
-import org.activiti.engine.ProcessEngines;
-import org.activiti.engine.RepositoryService;
-import org.activiti.engine.RuntimeService;
-import org.activiti.engine.TaskService;
+import org.activiti.engine.*;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.task.Task;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 
 /**

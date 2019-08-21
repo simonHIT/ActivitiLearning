@@ -1,6 +1,6 @@
-package com.simon.test.d_processVariables;
+package test.d_processVariables;
 
-import com.simon.activiti.model.User;
+import model.User;
 import org.activiti.engine.*;
 import org.activiti.engine.history.HistoricVariableInstance;
 import org.activiti.engine.repository.Deployment;
