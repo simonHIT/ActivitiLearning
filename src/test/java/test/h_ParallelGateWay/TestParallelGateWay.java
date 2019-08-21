@@ -1,4 +1,4 @@
-package test.g_ExclusiveGateWay;
+package test.h_ParallelGateWay;
 
 import org.activiti.engine.*;
 import org.activiti.engine.repository.Deployment;
@@ -12,13 +12,13 @@ import java.util.Map;
 
 /**
  * @program: activiti
- * @description: 排他网关测试
+ * @description: 测试平行网关
  * @author: simon
- * @create: 2019-08-21 09:26
+ * @create: 2019-08-21 10:06
  **/
-public class TestExclusiveGateWay {
+public class TestParallelGateWay {
 
-    private ProcessEngine processEngine=ProcessEngines.getDefaultProcessEngine();
+    private ProcessEngine processEngine= ProcessEngines.getDefaultProcessEngine();
 
     /**
      * 部署流程
@@ -28,7 +28,7 @@ public class TestExclusiveGateWay {
 
         RepositoryService repositoryService=processEngine.getRepositoryService();
         Deployment deployment=repositoryService.createDeployment().name("报销流程")
-                .addClasspathResource("ExclusiveGateWay.bpmn")
+                .addClasspathResource("ParallelGateWay.bpmn")
                 .deploy();
         System.out.println("部署成功 流程部署ID："+deployment.getId());
     }
@@ -53,7 +53,8 @@ public class TestExclusiveGateWay {
     @Test
     public void queryTask() {
 
-        String assignee="财务";
+        String assignee="商家";
+//        String assignee="买家";
         TaskService taskService=processEngine.getTaskService();
         List<Task> tasks=taskService.createTaskQuery().taskAssignee(assignee).list();
         for (Task task : tasks) {
@@ -73,7 +74,7 @@ public class TestExclusiveGateWay {
     @Test
     public void completeTask() {
 
-        String taskId="5004";
+        String taskId="10002";
         TaskService taskService=processEngine.getTaskService();
         taskService.complete(taskId);
         System.out.println("task "+taskId+" completed");
@@ -93,5 +94,4 @@ public class TestExclusiveGateWay {
         taskService.complete(taskId,variables);
         System.out.println("task "+taskId+" completed");
     }
-
 }
