@@ -1,4 +1,4 @@
-package java.test.h_ParallelGateWay;
+package test.h_ParallelGateWay;
 
 import org.activiti.engine.*;
 import org.activiti.engine.repository.Deployment;

@@ -1,4 +1,4 @@
-package java.test.k_groupTask;
+package test.k_groupTask;
 
 import org.activiti.engine.delegate.DelegateTask;
 import org.activiti.engine.delegate.TaskListener;

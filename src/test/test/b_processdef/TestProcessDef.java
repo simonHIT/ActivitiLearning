@@ -1,4 +1,4 @@
-package java.test.b_processdef;
+package test.b_processdef;
 
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.ProcessEngines;

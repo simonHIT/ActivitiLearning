@@ -1,4 +1,4 @@
-package java.test.d_processVariables;
+package test.d_processVariables;
 
 import model.User;
 import org.activiti.engine.*;

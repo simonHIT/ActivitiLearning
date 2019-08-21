@@ -1,4 +1,4 @@
-package java.test.c_processInstance;
+package test.c_processInstance;
 
 import org.activiti.engine.*;
 import org.activiti.engine.history.HistoricProcessInstance;

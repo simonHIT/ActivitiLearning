@@ -1,4 +1,4 @@
-package java.test.a_helloworld;
+package test.a_helloworld;
 
 import org.activiti.engine.*;
 import org.activiti.engine.repository.Deployment;

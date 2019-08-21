@@ -1,4 +1,4 @@
-package java.test.i_receiveTask;
+package test.i_receiveTask;
 
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.ProcessEngines;

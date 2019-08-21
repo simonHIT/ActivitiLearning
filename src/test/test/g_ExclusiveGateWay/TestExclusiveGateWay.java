@@ -1,4 +1,4 @@
-package java.test.f_sequenceFlow;
+package test.g_ExclusiveGateWay;
 
 import org.activiti.engine.*;
 import org.activiti.engine.repository.Deployment;
@@ -10,15 +10,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 /**
  * @program: activiti
- * @description: 连线 测试
+ * @description: 排他网关测试
  * @author: simon
- * @create: 2019-08-20 18:17
+ * @create: 2019-08-21 09:26
  **/
-public class TestSequenceFlow {
-    ProcessEngine processEngine= ProcessEngines.getDefaultProcessEngine();
+public class TestExclusiveGateWay {
+
+    private ProcessEngine processEngine=ProcessEngines.getDefaultProcessEngine();
 
     /**
      * 部署流程
@@ -28,7 +28,7 @@ public class TestSequenceFlow {
 
         RepositoryService repositoryService=processEngine.getRepositoryService();
         Deployment deployment=repositoryService.createDeployment().name("报销流程")
-                .addClasspathResource("SequenceFlowBPMN.bpmn")
+                .addClasspathResource("ExclusiveGateWay.bpmn")
                 .deploy();
         System.out.println("部署成功 流程部署ID："+deployment.getId());
     }
@@ -42,7 +42,7 @@ public class TestSequenceFlow {
         RuntimeService runtimeService = this.processEngine.getRuntimeService();
 
         //实际开发使用方法五、六
-        String processDefinitionKey="SequenceFlowBPMN";
+        String processDefinitionKey="myProcess";
         ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(processDefinitionKey);
         System.out.println("流程启动成功：流程id "+processInstance.getId()+" 流程名字 "+processInstance.getName());
     }
@@ -53,7 +53,7 @@ public class TestSequenceFlow {
     @Test
     public void queryTask() {
 
-        String assignee="李四";
+        String assignee="财务";
         TaskService taskService=processEngine.getTaskService();
         List<Task> tasks=taskService.createTaskQuery().taskAssignee(assignee).list();
         for (Task task : tasks) {
@@ -73,7 +73,7 @@ public class TestSequenceFlow {
     @Test
     public void completeTask() {
 
-        String taskId="22503";
+        String taskId="5004";
         TaskService taskService=processEngine.getTaskService();
         taskService.complete(taskId);
         System.out.println("task "+taskId+" completed");
@@ -85,9 +85,9 @@ public class TestSequenceFlow {
     @Test
     public void completeTaskByVariable() {
 
-        String taskId="20002";
+        String taskId="2504";
         Map<String,Object> variables=new HashMap<>();
-        variables.put("outcome","重要");
+        variables.put("money","450");
         TaskService taskService=processEngine.getTaskService();
 //        taskService.setVariables(taskId,variables);
         taskService.complete(taskId,variables);
