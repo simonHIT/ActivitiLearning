@@ -45,7 +45,7 @@ public class TestUserGroup {
         identityService.createMembership("小王","总经理");
 
         System.out.println("保存完成");
-
+        System.out.println("保存完成");
     }
 
 }

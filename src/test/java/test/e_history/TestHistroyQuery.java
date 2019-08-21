@@ -1,4 +1,4 @@
-package test.e_history;
+package java.test.e_history;
 
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.ProcessEngine;

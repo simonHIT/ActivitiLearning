@@ -1,4 +1,4 @@
-package test.j_personalTask;
+package java.test.j_personalTask;
 
 import org.activiti.engine.delegate.DelegateTask;
 import org.activiti.engine.delegate.TaskListener;

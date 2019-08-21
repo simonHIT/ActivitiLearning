@@ -1,4 +1,4 @@
-package test.g_ExclusiveGateWay;
+package java.test.g_ExclusiveGateWay;
 
 import org.activiti.engine.*;
 import org.activiti.engine.repository.Deployment;
