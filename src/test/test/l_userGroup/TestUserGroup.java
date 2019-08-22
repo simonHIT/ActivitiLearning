@@ -7,6 +7,7 @@ import org.activiti.engine.impl.persistence.entity.GroupEntity;
 import org.activiti.engine.impl.persistence.entity.UserEntity;
 import org.junit.jupiter.api.Test;
 
+
 /**
  * @program: activiti
  * @description: 用户组测试
