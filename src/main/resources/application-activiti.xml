@@ -11,22 +11,11 @@
 	http://www.springframework.org/schema/aop
 	http://www.springframework.org/schema/aop/spring-aop.xsd">
 	
-	<!-- <context:property-placeholder location="db.properties" system-properties-mode="FALLBACK"/> -->
-	
-	<!-- 配置数据源 -->
-	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
-		<property name="url" value="jdbc:mysql://localhost:3306/activitiTemp?characterEncoding=utf-8"></property>
-		<property name="username" value="root"></property>
-		<property name="password" value="Simon@mysql123"></property>
-	</bean>
-	
-   <bean id="processEngineConfiguration" class="org.activiti.engine.impl.cfg.StandaloneProcessEngineConfiguration">
-   		<!-- <property name="jdbcDriver" value="com.mysql.jdbc.Driver"></property>
-   		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/0705activiti"></property>
-   		<property name="jdbcUsername" value="root"></property>
-   		<property name="jdbcPassword" value="123456"></property> -->
+   <bean id="processEngineConfiguration" class="org.activiti.spring.SpringProcessEngineConfiguration">
+  		 <!-- 注入数据源 -->
    		<property name="dataSource" ref="dataSource"></property>
+   		<!-- 把事务交给spring 去管理 -->
+   		<property name="transactionManager" ref="transactionManager" />
 		<!--    		
 		flase： 默认值。activiti在启动时，会对比数据库表中保存的版本，如果没有表或者版本不匹配，将抛出异常。
 		true： activiti会对数据库中所有表进行更新操作。如果表不存在，则自动创建。
@@ -34,4 +23,16 @@
 		drop-create： 在activiti启动时删除原来的旧表，然后在创建新表（不需要手动关闭引擎）。 -->
    		<property name="databaseSchemaUpdate" value="true"></property>
    </bean>
+   
+   <!-- 创建流程引擎对象 -->
+   <bean id="processEngine" class="org.activiti.spring.ProcessEngineFactoryBean">
+		<property name="processEngineConfiguration" ref="processEngineConfiguration" />
+	</bean>
+	<bean id="repositoryService" factory-bean="processEngine" factory-method="getRepositoryService" />
+    <bean id="runtimeService" factory-bean="processEngine" factory-method="getRuntimeService" />
+    <bean id="taskService" factory-bean="processEngine" factory-method="getTaskService" />
+    <bean id="formService" factory-bean="processEngine" factory-method="getFormService" />
+    <bean id="historyService" factory-bean="processEngine" factory-method="getHistoryService" />
+    <bean id="managementService" factory-bean="processEngine" factory-method="getManagementService" />
+    <bean id="identityService" factory-bean="processEngine" factory-method="getIdentityService" />
 </beans>
