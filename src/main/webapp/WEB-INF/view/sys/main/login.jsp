@@ -22,21 +22,20 @@
         <img src="${simonBasePath }/resources/images/face.jpg" class="userAvatar">
     </div>
     <div class="layui-form-item input-item">
-        <label for="userName">用户名</label> <input type="text"
-                                                 placeholder="请输入用户名" autocomplete="off" id="loginname" name="loginname"
-                                                 value="system"
-                                                 class="layui-input" lay-verify="required">
+        <label for="userName">用户名</label>
+        <input type="text" placeholder="请输入用户名" autocomplete="off" id="loginname" name="loginname"
+               value="system"
+               class="layui-input" lay-verify="required">
     </div>
     <div class="layui-form-item input-item">
-        <label for="password">密码</label> <input type="password"
-                                                placeholder="请输入密码" autocomplete="off" id="password" name="pwd"
-                                                value="123456"
-                                                class="layui-input" lay-verify="required">
+        <label for="password">密码</label>
+        <input type="password" placeholder="请输入密码" autocomplete="off" id="password" name="pwd" value="123456"
+               class="layui-input" lay-verify="required">
     </div>
     <div class="layui-form-item input-item" id="imgCode">
-        <label for="code">验证码</label> <input type="text" placeholder="请输入验证码"
-                                             autocomplete="off" id="code" value="1234" class="layui-input"> <img
-            src="${simonBasePath }/resources/images/code.jpg">
+        <label for="code">验证码</label>
+        <input type="text" placeholder="请输入验证码" autocomplete="off" id="code" value="1234" class="layui-input">
+        <img src="${simonBasePath }/resources/images/code.jpg">
     </div>
     <div class="layui-form-item">
         <button class="layui-btn layui-block" lay-filter="login" lay-submit>登录</button>
@@ -93,8 +92,7 @@
             }
         })
     })
-
-
+    
 </script>
 </body>
 </html>

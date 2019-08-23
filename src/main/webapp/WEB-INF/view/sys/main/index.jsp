@@ -50,8 +50,9 @@
                                 class="layui-badge-dot"></span></a></dd>
                         <dd pc><a href="javascript:;" class="changeSkin"><i
                                 class="layui-icon">&#xe61b;</i><cite>更换皮肤</cite></a></dd>
-                        <dd><a href="${ simonBasePath}/resources/page/login/login.html" class="signOut"><i
+                        <dd><a href="${ simonBasePath}/login/toLogin.action" class="signOut"><i
                                 class="seraph icon-tuichu"></i><cite>退出</cite></a></dd>
+                        <%--resources/page/login/login.html--%>
                     </dl>
                 </li>
             </ul>
@@ -75,7 +76,7 @@
         <div class="navBar layui-side-scroll" id="navBar">
             <ul class="layui-nav layui-nav-tree">
                 <li class="layui-nav-item layui-this">
-                    <a href="javascript:;" data-url="${ simonBasePath}/desk/toDeskManager.action"><i class="layui-icon"
+                    <a href="javascript:;" data-url="${simonBasePath}/desk/toDeskManager.action"><i class="layui-icon"
                                                                                                      data-icon=""></i><cite>后台首页</cite></a>
                 </li>
             </ul>

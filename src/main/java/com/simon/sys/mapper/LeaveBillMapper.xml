@@ -147,6 +147,5 @@
 			</if>
 		</where>
 		order by leavetime desc
-
 	</select>
 </mapper>
