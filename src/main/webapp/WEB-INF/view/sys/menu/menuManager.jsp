@@ -7,7 +7,7 @@
 <title>菜单管理</title>
 </head>
 <frameset cols="200,*" border="2" frameborder="yes">
-	<frame src="${ctx }/menu/toMenuLeft.action" name="left">
-	<frame src="${ctx }/menu/toMenuRight.action" name="right">
+	<frame src="${simonBasePath }/menu/toMenuLeft.action" name="left">
+	<frame src="${simonBasePath }/menu/toMenuRight.action" name="right">
 </frameset>
 </html>

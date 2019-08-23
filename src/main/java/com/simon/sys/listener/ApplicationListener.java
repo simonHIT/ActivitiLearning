@@ -11,8 +11,8 @@ public class ApplicationListener implements ServletContextListener{
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
 		ServletContext context = sce.getServletContext();
-		context.setAttribute("ctx", context.getContextPath());
-		System.out.println("---------------ServletContext初始化成功  ctx被加入到作用域--------");
+		context.setAttribute("simonBasePath", context.getContextPath());
+		System.out.println("---------------ServletContext初始化成功  simonBasePath被加入到作用域--------");
 	}
 
 	@Override

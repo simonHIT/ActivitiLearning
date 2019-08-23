@@ -5,9 +5,9 @@
 <head>
 <meta charset="UTF-8">
 <title>菜单管理--菜单树</title>
-<link rel="stylesheet" href="${ctx }/resources/zTree/css/metroStyle/metroStyle.css"/>
-<script type="text/javascript" src="${ctx }/resources/zTree/js/jquery-1.4.4.min.js"></script>
-<script type="text/javascript" src="${ctx }/resources/zTree/js/jquery.ztree.core.js"></script>
+<link rel="stylesheet" href="${simonBasePath }/resources/zTree/css/metroStyle/metroStyle.css"/>
+<script type="text/javascript" src="${simonBasePath }/resources/zTree/js/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="${simonBasePath }/resources/zTree/js/jquery.ztree.core.js"></script>
 </head>
 <body>
 	<div id="treeMenus" class="ztree"></div>
@@ -15,7 +15,7 @@
 	<script type="text/javascript">
 		function zTreeOnClick(event, treeId, treeNode) {
 			window.parent.right.tableIns.reload({
-				url:'${ctx}/menu/loadAllMenu.action?id='+treeNode.id
+				url:'${simonBasePath}/menu/loadAllMenu.action?id='+treeNode.id
 			})
 		}
 		var setting = {
@@ -33,7 +33,7 @@
 		});
 		function initTree() {
 			//使用ajaxt去请求菜单的json
-			$.post("${ctx}/menu/loadMenuLeftTree.action",
+			$.post("${simonBasePath}/menu/loadMenuLeftTree.action",
 					function(zNodes) {
 						$.fn.zTree.init($("#treeMenus"), setting, zNodes);
 					});

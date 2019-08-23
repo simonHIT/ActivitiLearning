@@ -12,8 +12,8 @@
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="format-detection" content="telephone=no">
-	<link rel="stylesheet" href="${ctx }/resources/layui/css/layui.css" media="all" />
-	<link rel="stylesheet" href="${ctx }/resources/css/public.css" media="all" />
+	<link rel="stylesheet" href="${simonBasePath }/resources/layui/css/layui.css" media="all" />
+	<link rel="stylesheet" href="${simonBasePath }/resources/css/public.css" media="all" />
 </head>
 <body class="childrenBody">
 	<form class="layui-form" id="searchFrm">
@@ -32,7 +32,7 @@
 	      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
 	    </div>
 	  </div>
-	  
+
 </form>
 	<table id="menuList" lay-filter="menuList"></table>
 	<!--table工具条-->
@@ -54,10 +54,10 @@
 </shiro:hasPermission>
 	</script>
 
-<script type="text/javascript" src="${ctx}/resources/layui/layui.js"></script>
+<script type="text/javascript" src="${simonBasePath}/resources/layui/layui.js"></script>
 <script type="text/javascript">
-var tableIns;
-layui.use(['form','layer','laydate','table','laytpl'],function(){
+    var tableIns;
+    layui.use(['form','layer','laydate','table','laytpl'],function(){
     var form = layui.form,
         layer = parent.layer === undefined ? layui.layer : top.layer,
         $ = layui.jquery,
@@ -67,7 +67,7 @@ layui.use(['form','layer','laydate','table','laytpl'],function(){
     //菜单列表
      tableIns = table.render({
         elem: '#menuList',
-        url : '${ctx}/menu/loadAllMenu.action',
+        url : '${simonBasePath}/menu/loadAllMenu.action',
         cellMinWidth : 95,
         page : true,
         height : "full-160",
@@ -103,10 +103,10 @@ layui.use(['form','layer','laydate','table','laytpl'],function(){
     	var params=$("#searchFrm").serialize();
         //搜索
     	tableIns.reload({
-    		url:'${ctx}/menu/loadAllMenu.action?'+params
+    		url:'${simonBasePath}/menu/loadAllMenu.action?'+params
     	})
     });
-    
+
     //监控表格头的添加和批量删除事件
     table.on("toolbar(menuList)",function(obj){
     	switch(obj.event){
@@ -125,7 +125,7 @@ layui.use(['form','layer','laydate','table','laytpl'],function(){
             title : "添加菜单",
             type : 2,
             area:["700px",'550px'],
-            content : "${ctx}/menu/toAddMenu.action",
+            content : "${simonBasePath}/menu/toAddMenu.action",
             success : function(layero, index){
                 setTimeout(function(){
                     layui.layer.tips('点击此处返回菜单列表', '.layui-layer-setwin .layui-layer-close', {
@@ -155,7 +155,7 @@ layui.use(['form','layer','laydate','table','laytpl'],function(){
             	}
             }
             layer.confirm('确定删除选中的菜单？', {icon: 3, title: '提示信息'}, function (index) {
-                 $.get("${ctx}/menu/deleteMenuBatch.action?"+menuIds,function(data){
+                 $.get("${simonBasePath}/menu/deleteMenuBatch.action?"+menuIds,function(data){
                 	 tableIns.reload();
                      window.parent.left.initTree();//刷新左边的树
                      layer.close(index);
@@ -174,8 +174,8 @@ layui.use(['form','layer','laydate','table','laytpl'],function(){
             updateMenu(data);
         } else if(layEvent === 'del'){ //删除
             layer.confirm('确定删除此菜单？',{icon:3, title:'提示信息'},function(index){
-                 $.post("${ctx}/menu/deleteMenu.action",{
-                     id : data.id  
+                 $.post("${simonBasePath}/menu/deleteMenu.action",{
+                     id : data.id
                  },function(data){
                     tableIns.reload();
                     window.parent.left.initTree();//刷新左边的树
@@ -186,14 +186,14 @@ layui.use(['form','layer','laydate','table','laytpl'],function(){
             layer.alert("此功能需要前台展示，实际开发中传入对应的必要参数进行菜单内容页面访问")
         }
     });
-    
+
     //修改
     function updateMenu(data){
     	var index = layui.layer.open({
             title : "修改菜单",
             type : 2,
             area:["700px",'550px'],
-            content : "${ctx}/menu/toUpdateMenu.action?id="+data.id,
+            content : "${simonBasePath}/menu/toUpdateMenu.action?id="+data.id,
             success : function(layero, index){
                 setTimeout(function(){
                     layui.layer.tips('点击此处返回菜单列表', '.layui-layer-setwin .layui-layer-close', {

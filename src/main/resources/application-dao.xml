@@ -21,8 +21,8 @@
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<!-- 注入相关属性 -->
-		<property name="driverClassName" value="${driver}"></property>
-		<property name="url" value="${url}"></property>
+		<property name="driverClassName" value="${jdbcDriver}"></property>
+		<property name="url" value="${jdbcUrl}"></property>
 		<property name="username" value="${username}"></property>
 		<property name="password" value="${password}"></property>
 	</bean>

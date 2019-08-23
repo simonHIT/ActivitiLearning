@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+         pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,9 +11,9 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
-    <link rel="stylesheet" href="${ctx }/resources/zTree/css/metroStyle/metroStyle.css" type="text/css">
-    <script type="text/javascript" src="${ctx }/resources/zTree/js/jquery-1.4.4.min.js"></script>
-    <script type="text/javascript" src="${ctx }/resources/zTree/js/jquery.ztree.core.js"></script>
+    <link rel="stylesheet" href="${simonBasePath }/resources/zTree/css/metroStyle/metroStyle.css" type="text/css">
+    <script type="text/javascript" src="${simonBasePath }/resources/zTree/js/jquery-1.4.4.min.js"></script>
+    <script type="text/javascript" src="${simonBasePath }/resources/zTree/js/jquery.ztree.core.js"></script>
 </head>
 <body>
 <div id="treeDemo" class="ztree"></div>
@@ -32,11 +32,12 @@
             onClick: zTreeOnClick
         }
     };
-     function initLeftProviderTree(){
-    	var url="${ctx}/goods/loadLeftProviderTree.action"
-        $.post(url,function(json){
-    	   $.fn.zTree.init($("#treeDemo"), setting, json);
-       })
+
+    function initLeftProviderTree() {
+        var url = "${simonBasePath}/goods/loadLeftProviderTree.action"
+        $.post(url, function (json) {
+            $.fn.zTree.init($("#treeDemo"), setting, json);
+        })
     };
     initLeftProviderTree();
 </script>

@@ -11,13 +11,13 @@
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="format-detection" content="telephone=no">
-	<link rel="stylesheet" href="${ctx }/resources/zTree/css/metroStyle/metroStyle.css"/>
-	<script type="text/javascript" src="${ctx }/resources/zTree/js/jquery-1.4.4.min.js"></script>
-	<script type="text/javascript" src="${ctx }/resources/zTree/js/jquery.ztree.core.js"></script>
-	<script type="text/javascript" src="${ctx }/resources/zTree/plugin/js/selectTree.js"></script>
-	<link rel="stylesheet" href="${ctx }/resources/layui/css/layui.css" media="all" />
-	<link rel="stylesheet" href="${ctx }/resources/css/public.css" media="all" />
-	<link rel="stylesheet" href="${ctx }/resources/zTree/plugin/css/index.css" media="all" />
+	<link rel="stylesheet" href="${simonBasePath }/resources/zTree/css/metroStyle/metroStyle.css"/>
+	<script type="text/javascript" src="${simonBasePath }/resources/zTree/js/jquery-1.4.4.min.js"></script>
+	<script type="text/javascript" src="${simonBasePath }/resources/zTree/js/jquery.ztree.core.js"></script>
+	<script type="text/javascript" src="${simonBasePath }/resources/zTree/plugin/js/selectTree.js"></script>
+	<link rel="stylesheet" href="${simonBasePath }/resources/layui/css/layui.css" media="all" />
+	<link rel="stylesheet" href="${simonBasePath }/resources/css/public.css" media="all" />
+	<link rel="stylesheet" href="${simonBasePath }/resources/zTree/plugin/css/index.css" media="all" />
 </head>
 <body class="childrenBody">
 <form class="layui-form" id="menuFrm">
@@ -89,11 +89,11 @@
 		<button type="reset" class="layui-btn layui-btn-warm">重置</button>
 	</div>
 </form>
-<script type="text/javascript" src="${ctx}/resources/layui/layui.js"></script>
+<script type="text/javascript" src="${simonBasePath}/resources/layui/layui.js"></script>
 <script type="text/javascript">
 
 $(document).ready(function () {
-   $.post("${ctx}/menu/loadMenuLeftTree.action?available=1",function(zNodes){
+   $.post("${simonBasePath}/menu/loadMenuLeftTree.action?available=1",function(zNodes){
 	   initSelectTree("pid", zNodes,false);
 	    $(".layui-nav-item a").bind("click", function () {
 	        if (!$(this).parent().hasClass("layui-nav-itemed") && !$(this).parent().parent().hasClass("layui-nav-child")) {
@@ -107,16 +107,16 @@ $(document).ready(function () {
 
 
 layui.use(['form','layer','jquery'],function(){
-    var form = layui.form,
+        var form = layui.form,
         layer = parent.layer === undefined ? layui.layer : top.layer,
         $ = layui.jquery;
-        
+
       //监听提交
         form.on('submit(addMenu)', function(data){
             var data=$("#menuFrm").serialize();
             //使用ajax提交
              $.ajax({
-                url:'${ctx}/menu/addMenu.action',
+                url:'${simonBasePath}/menu/addMenu.action',
                 type:'POST',
                 async:true,    //或false,是否异步
                 data:data,
@@ -134,11 +134,9 @@ layui.use(['form','layer','jquery'],function(){
                 },
                	 error:function(xhr,textStatus){
                 }
-            }) 
+            })
             return false;
         });
-   
-
 })
 </script>
 </body>
