@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" expressionLanguage="http://www.w3.org/1999/XPath" id="m1567066974662" name="" targetNamespace="http://www.activiti.org/testm1567066974662" typeLanguage="http://www.w3.org/2001/XMLSchema">
+  <process id="leaveBill" isClosed="false" isExecutable="true" processType="None">
+    <startEvent id="_2" name="StartEvent"/>
+    <endEvent id="_3" name="EndEvent"/>
+    <userTask activiti:exclusive="true" id="提交申请" name="提交申请">
+      <extensionElements>
+        <activiti:taskListener event="create"/>
+      </extensionElements>
+    </userTask>
+    <userTask activiti:exclusive="true" id="上级审批" name="上级审批">
+      <extensionElements>
+        <activiti:taskListener event="create"/>
+      </extensionElements>
+    </userTask>
+    <userTask activiti:exclusive="true" id="领导审批" name="上上级领导审�?">
+      <extensionElements>
+        <activiti:taskListener event="create"/>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="_7" sourceRef="_2" targetRef="提交申请"/>
+    <sequenceFlow id="_8" name="提交" sourceRef="提交申请" targetRef="上级审批">
+      <conditionExpression xsi:type="tFormalExpression">
+        <![CDATA[${outcome='提交'}]]>
+      </conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="_9" name="同意" sourceRef="上级审批" targetRef="领导审批">
+      <conditionExpression xsi:type="tFormalExpression">
+        <![CDATA[${outcome='同意'}]]>
+      </conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="_10" name="同意" sourceRef="领导审批" targetRef="_3">
+      <conditionExpression xsi:type="tFormalExpression">
+        <![CDATA[${outcome='同意'}]]>
+      </conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="_11" name="驳回" sourceRef="上级审批" targetRef="提交申请">
+      <conditionExpression xsi:type="tFormalExpression">
+        <![CDATA[${outcome='驳回'}]]>
+      </conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="_12" name="驳回" sourceRef="领导审批" targetRef="提交申请">
+      <conditionExpression xsi:type="tFormalExpression">
+        <![CDATA[${outcome='驳回'}]]>
+      </conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="_14" name="放弃" sourceRef="提交申请" targetRef="_3">
+      <conditionExpression xsi:type="tFormalExpression">
+        <![CDATA[${outcome='放弃'}]]>
+      </conditionExpression>
+    </sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram documentation="background=#3C3F41;count=1;horizontalcount=1;orientation=0;width=842.4;height=1195.2;imageableWidth=832.4;imageableHeight=1185.2;imageableX=5.0;imageableY=5.0" id="Diagram-_1" name="New Diagram">
+    <bpmndi:BPMNPlane bpmnElement="leaveBill">
+      <bpmndi:BPMNShape bpmnElement="_2" id="Shape-_2">
+        <dc:Bounds height="32.0" width="32.0" x="220.0" y="0.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_3" id="Shape-_3">
+        <dc:Bounds height="32.0" width="32.0" x="220.0" y="415.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="提交申请" id="Shape-提交申请">
+        <dc:Bounds height="55.0" width="85.0" x="195.0" y="100.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="上级审批" id="Shape-上级审批">
+        <dc:Bounds height="55.0" width="85.0" x="195.0" y="185.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="领导审批" id="Shape-领导审批">
+        <dc:Bounds height="55.0" width="85.0" x="195.0" y="280.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="_12" id="BPMNEdge__12" sourceElement="_6" targetElement="_4">
+        <di:waypoint x="280.0" y="307.5"/>
+        <di:waypoint x="405.0" y="225.0"/>
+        <di:waypoint x="280.0" y="127.5"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_14" id="BPMNEdge__14" sourceElement="_4" targetElement="_3">
+        <di:waypoint x="195.0" y="127.5"/>
+        <di:waypoint x="55.0" y="275.0"/>
+        <di:waypoint x="220.0" y="431.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_7" id="BPMNEdge__7" sourceElement="_2" targetElement="_4">
+        <di:waypoint x="236.0" y="32.0"/>
+        <di:waypoint x="236.0" y="100.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_8" id="BPMNEdge__8" sourceElement="_4" targetElement="_5">
+        <di:waypoint x="237.5" y="155.0"/>
+        <di:waypoint x="237.5" y="185.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_9" id="BPMNEdge__9" sourceElement="_5" targetElement="_6">
+        <di:waypoint x="237.5" y="240.0"/>
+        <di:waypoint x="237.5" y="280.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_11" id="BPMNEdge__11" sourceElement="_5" targetElement="_4">
+        <di:waypoint x="280.0" y="212.5"/>
+        <di:waypoint x="335.0" y="170.0"/>
+        <di:waypoint x="280.0" y="127.5"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_10" id="BPMNEdge__10" sourceElement="_6" targetElement="_3">
+        <di:waypoint x="236.0" y="335.0"/>
+        <di:waypoint x="236.0" y="415.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

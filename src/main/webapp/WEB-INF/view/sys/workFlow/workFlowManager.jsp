@@ -65,7 +65,7 @@
             cellMinWidth: 95,
             toolbar: '#deploymentTableToolBar',
             page: true,
-            height: "full-350",
+            height: "full-340",
             limits: [5, 10, 15, 20],
             defaultToolbar: ['filter'],
             limit: 5,
@@ -84,7 +84,7 @@
             url: '${simonBasePath }/workFlow/loadAllProcessDefinition.action',
             cellMinWidth: 95,
             page: true,
-            height: "full-380",
+            height: "full-350",
             limits: [5, 10, 15, 20],
             limit: 5,
             id: "processDefinitionListTable",
@@ -110,7 +110,7 @@
             });
         });
         //监听头工具栏事件
-        table.on('toolbar(workFlowList)', function (obj) {
+        table.on('toolbar(deploymentList)', function (obj) {
             switch (obj.event) {
                 case 'add':
                     toAddWorkFlow();
@@ -127,7 +127,7 @@
             var index = layui.layer.open({
                 title: "添加流程",
                 type: 2,//ifream层
-                area: ["800px", "500px"],
+                area: ["600px", "300px"],
                 content: "${simonBasePath }/workFlow/toAddWorkFlow.action",
                 success: function (layero, index) {
                     setTimeout(function () {
@@ -145,16 +145,18 @@
         }
 
         //列表操作
-        table.on('tool(workFlowList)', function (obj) {
+        table.on('tool(deploymentList)', function (obj) {
             var layEvent = obj.event,
                 data = obj.data;
             if (layEvent === 'del') { //删除
                 layer.confirm('确定删【' + data.name + '】流程吗？', {icon: 3, title: '提示信息'}, function (index) {
                     $.post("${simonBasePath}/workFlow/deleteWorkFlow.action", {
-                        id: data.id  //将需要删除的id作为参数传入
+                        deploymentId: data.id  //将需要删除的id作为参数传入
                     }, function (data) {
                         //刷新table
-                        tableIns.reload();
+                        tableDeploymentIns.reload();
+                        tableprocessDefinitionIns.reload();
+                        //tableIns.reload();
                         //关闭提示框
                         layer.close(index);
                     })
@@ -178,7 +180,8 @@
                 layer.confirm('确定删除选中的流程？', {icon: 3, title: '提示信息'}, function (index) {
                     $.post("${simonBasePath}/workFlow/batchDeleteWorkFlow.action?" + ids, function (data) {
                         //刷新table
-                        tableIns.reload();
+                        tableDeploymentIns.reload();
+                        tableprocessDefinitionIns.reload();
                         //关闭提示框
                         layer.close(index);
                     })

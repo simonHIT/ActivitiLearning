@@ -1,9 +1,12 @@
 package com.simon.sys.service.impl;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.zip.ZipInputStream;
 
 import org.activiti.engine.FormService;
 import org.activiti.engine.HistoryService;
@@ -54,7 +57,7 @@ public class WorkFlowServiceImpl implements WorkFlowService{
 		//查询总条数
 		long count = repositoryService.createDeploymentQuery().deploymentNameLike("%"+name+"%").count();
 		//查询
-		int firstResult=(workFlowVo.getPage()-1)*workFlowVo.getLimit();
+		int firstResult = (workFlowVo.getPage() - 1) * workFlowVo.getLimit();
 		int maxResults=workFlowVo.getLimit();
 		List<Deployment> list = repositoryService.createDeploymentQuery().deploymentNameLike("%"+name+"%").listPage(firstResult, maxResults);
 		List<ActDeploymentEntity> data=new ArrayList<ActDeploymentEntity>();
@@ -98,10 +101,30 @@ public class WorkFlowServiceImpl implements WorkFlowService{
 		}
 		return new DataGridView(count, data);
 	}
-	
-	
-	
-	
-	
+
+	/**
+	 * 添加流程部署
+	 * @param inputStream
+	 * @param deploymentName
+	 */
+	@Override
+	public void addWorkFlow(InputStream inputStream, String deploymentName) {
+		ZipInputStream zipInputStream = new ZipInputStream(inputStream);
+		this.repositoryService.createDeployment().name(deploymentName).
+				addZipInputStream(zipInputStream).deploy();
+		try {
+			zipInputStream.close();
+			inputStream.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	@Override
+	public void deleteWorkFlow(String deploymentId) {
+		this.repositoryService.deleteDeployment(deploymentId,true);
+	}
+
 
 }

@@ -6,6 +6,10 @@ import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 
 
 import java.util.HashMap;
@@ -19,7 +23,9 @@ import java.util.Map;
  * @author: simon
  * @create: 2019-08-20 18:17
  **/
+@ContextConfiguration("classpath:applicationContext.xml")
 public class TestSequenceFlow {
+
     ProcessEngine processEngine= ProcessEngines.getDefaultProcessEngine();
 
     /**
