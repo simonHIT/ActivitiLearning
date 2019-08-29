@@ -74,6 +74,7 @@
                     layer.msg(data.msg);
                     //关闭添加的弹出层
                     var addIndex = parent.layer.getFrameIndex(window.name);
+
                     window.parent.layer.close(addIndex);
                     //刷新父页面的table
                     window.parent.tableIns.reload();
