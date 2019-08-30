@@ -13,6 +13,10 @@ public class WorkFlowVo{
 	private String deploymentId;
 
 	private List<String> deploymentIds;
+
+	private Integer id;
+
+	private String taskId;
 	
 	
 	//流程部署名称
@@ -60,5 +64,21 @@ public class WorkFlowVo{
 
 	public void setDeploymentIds(List<String> deploymentIds) {
 		this.deploymentIds = deploymentIds;
+	}
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+	public String getTaskId() {
+		return taskId;
+	}
+
+	public void setTaskId(String taskId) {
+		this.taskId = taskId;
 	}
 }

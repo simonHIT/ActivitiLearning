@@ -212,6 +212,8 @@
                 });
             } else if (layEvent === "view") {
                 show(data.id);
+            } else if (layEvent === "startProcess") {
+                startProcess(data);
             }
         });
 
@@ -257,6 +259,21 @@
             $(window).on("resize", function () {
                 layui.layer.full(index);
             })
+        }
+        function startProcess(data) {
+            layer.confirm('确定提交【' + data.title + '】请假单吗？', {icon: 3, title: '提示信息'}, function (index) {
+                $.post("${simonBasePath}/workFlow/startProcess.action", {
+                    id: data.id  //将需要删除的id作为参数传入
+                }, function (data) {
+                    //刷新table
+                    tableIns.reload();
+                    if (data.msg="启动成功"){
+                        window.alert("启动成功");
+                    }
+                    //关闭提示框
+                    layer.close(index);
+                })
+            });
         }
     })
 

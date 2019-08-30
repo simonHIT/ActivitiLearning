@@ -28,6 +28,7 @@
 		<tx:attributes>
 			<!-- name="add*" 代表切面里面的类的所有方法如果为add开头就使用事务 -->
 			<tx:method name="add*" propagation="REQUIRED" />
+			<tx:method name="start*" propagation="REQUIRED" />
 			<tx:method name="save*" propagation="REQUIRED" />
 			<tx:method name="insert*" propagation="REQUIRED" />
 			<tx:method name="update*" propagation="REQUIRED" />

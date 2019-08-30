@@ -44,7 +44,7 @@
 <!--操作-->
 <script type="text/html" id="deploymentListBar">
     <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
-    <a class="layui-btn layui-btn-xs" lay-event="edit">查看流程图</a>
+    <a class="layui-btn layui-btn-xs" lay-event="viewProcessImage">查看流程图</a>
 </script>
 <script type="text/javascript" src="${simonBasePath }/resources/layui/layui.js"></script>
 </body>
@@ -161,16 +161,16 @@
                         layer.close(index);
                     })
                 });
-            } else if (layEvent === "toSelectPermisison") {
+            } else if (layEvent === "viewProcessImage") {
                 //传入流程对象
-                openSelectPermisison(data);
+                toviewProcessImage(data);
             }
         });
 
         //批量删除
         function batchDelete() {
             //得到当前表格里面的checkbox的选中对象集合
-            var checkStatus = table.checkStatus('workFlowListTable'),//选中状态
+            var checkStatus = table.checkStatus('deploymentListTable'),//选中状态
                 data = checkStatus.data;//选中的对象集
             var ids = "a=1";
             if (data.length > 0) {
@@ -189,6 +189,27 @@
             } else {
                 layer.msg("请选择需要删除的流程");
             }
+        }
+
+        function toviewProcessImage(data) {
+            var index = layui.layer.open({
+                title: "查看流程【"+data.name+"】图片",
+                type: 2,//ifream层
+                area: ["800px", "500px"],
+                content: "${simonBasePath }/workFlow/toViewProcessImage.action?deploymentId="+data.id,
+                success: function (layero, index) {
+                    setTimeout(function () {
+                        layui.layer.tips('点击此处返回流程列表', '.layui-layer-setwin .layui-layer-close', {
+                            tips: 3
+                        });
+                    }, 500)
+                }
+            })
+            //layui.layer.full(index);
+            //改变窗口大小时，重置弹窗的宽高，防止超出可视区域（如F12调出debug的操作）
+            $(window).on("resize", function () {
+                layui.layer.full(index);
+            })
         }
     })
 
