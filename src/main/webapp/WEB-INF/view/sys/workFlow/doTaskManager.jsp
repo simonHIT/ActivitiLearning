@@ -60,14 +60,51 @@
         <button type="reset" class="layui-btn layui-btn-warm">重置</button>--%>
     </div>
 </form>
+<table id="commentList" lay-filter="commentList"></table>
 <script type="text/javascript" src="${simonBasePath }/resources/layui/layui.js"></script>
 </body>
 <script type="text/javascript">
-    layui.use(['form', 'jquery', 'layer'], function () {
+    layui.use(['form', 'jquery', 'layer','table'], function () {
         var form = layui.form;
         var $ = layui.jquery;
+        var table=layui.table;
         //如果父页面有layer就使用父页的  没有就自己导入
         var layer = parent.layer === undefined ? layui.layer : top.layer;
+        var tableIns = table.render({
+            elem: '#commentList',
+            url: '${simonBasePath }/workFlow/loadAllCommentByTaskId.action?taskId='+${workFlowVo.taskId},
+            cellMinWidth: 95,
+            height: "full-220",
+            id: "commentListTable",
+            cols: [[
+                {field: 'time', title: '批注时间', minWidth: 100, align: "center"},
+                {field: 'userId', title: '批注人', minWidth: 100, align: "center"},
+                {field: 'message', title: '批注内容', minWidth: 100, align: "center"}
+            ]]
+        });
+
+        //监控按钮事件
+        $(".dotask").click(function (obj) {
+            var outcome=this.value;
+            $.post("${simonBasePath}/workFlow/doTask.action"
+                ,{
+                    taskId:${workFlowVo.taskId},
+                    outcome:outcome,
+                    id:${leaveBill.id},
+                    comment:$("#comment").val()
+                },function (data) {
+                    layer.msg(data.msg);
+
+                    //关闭部署的弹出层
+                    var index=parent.layer.getFrameIndex(window.name);
+                    window.parent.layer.close(index);
+
+                    //刷新父页面的table
+                    window.parent.tableIns.reload();
+                }
+            )
+
+        })
     });
 </script>
 </html>

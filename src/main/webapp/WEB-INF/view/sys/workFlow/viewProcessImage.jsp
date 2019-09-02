@@ -10,6 +10,12 @@
 <html>
 <head>
     <title>查看流程图</title>
+    <style>
+        div{
+            border: 2px solid red;
+            padding: 4px;
+        }
+    </style>
 </head>
 <body style="text-align: center">
 <c:if test="${not empty workFlowVo.deploymentId}">
@@ -17,7 +23,10 @@
 </c:if>
 <c:if test="${not empty workFlowVo.taskId}">
     <img src="${simonBasePath}/workFlow/viewProcessImageByTaskId.action?taskId=${workFlowVo.taskId}" alt="流程图">
+    <div style="position: absolute;left:${coordinate.activityX}px;top: ${coordinate.activityY}px;width: ${coordinate.width}px;height: ${coordinate.height} ">
+    </div>
 </c:if>
+
 
 </body>
 </html>

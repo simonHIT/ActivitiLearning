@@ -7,6 +7,7 @@ import com.simon.sys.vo.WorkFlowVo;
 
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 
 public interface WorkFlowService {
 	//查询流程部署信息
@@ -31,5 +32,11 @@ public interface WorkFlowService {
 	public LeaveBill queryLeaveBillByTaskId(String taskId);
 
 	public List<String> queryOutcomesByTaskId(String taskId);
+
+	public DataGridView queryAllCommentByTaskId(String taskId);
+
+	public void completeTask(WorkFlowVo workFlowVo);
+
+	public Map<String,Object> queryCoordinateByTaskId(String taskId);
 
 }

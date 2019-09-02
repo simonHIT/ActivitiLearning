@@ -114,9 +114,14 @@ public class WorkFlowController {
      * @return
      */
     @RequestMapping("toViewProcessImage")
-	public String toViewProcessImage(WorkFlowVo workFlowVo){
+	public String toViewProcessImage(WorkFlowVo workFlowVo,Model model){
 
+        if (workFlowVo.getTaskId()!=null&&!workFlowVo.getTaskId().equals("")){
+            Map<String, Object> coordinate = this.workFlowService.queryCoordinateByTaskId(workFlowVo.getTaskId());
+            model.addAttribute("coordinate",coordinate);
+        }
         return "sys/workFlow/viewProcessImage";
+
     }
 
     /**
@@ -142,7 +147,7 @@ public class WorkFlowController {
      * @param workFlowVo
      */
     @RequestMapping("viewProcessImageByTaskId")
-    public void viewProcessImageByTaskId(WorkFlowVo workFlowVo, HttpServletResponse httpServletResponse){
+    public void viewProcessImageByTaskId(WorkFlowVo workFlowVo, HttpServletResponse httpServletResponse,Model model){
         InputStream stream = this.workFlowService.queryProcessDeploymentImageByTaskId(workFlowVo.getTaskId());
         try {
             BufferedImage image= ImageIO.read(stream);
@@ -151,6 +156,7 @@ public class WorkFlowController {
             ImageIO.write(image,"png",outputStream);
             outputStream.close();
             stream.close();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -216,10 +222,26 @@ public class WorkFlowController {
      * @param workFlowVo
      * @return
      */
-    @RequestMapping("loadAllComment")
+    @RequestMapping("loadAllCommentByTaskId")
     @ResponseBody
-    public DataGridView loadAllComment(WorkFlowVo workFlowVo){
-        return null;
+    public DataGridView loadAllCommentByTaskId(WorkFlowVo workFlowVo){
+
+        return this.workFlowService.queryAllCommentByTaskId(workFlowVo.getTaskId());
+    }
+
+    @RequestMapping("doTask")
+    @ResponseBody
+    public Map<String,Object> doTask(WorkFlowVo workFlowVo){
+        HashMap<String, Object> resultMap = new HashMap<>();
+
+        try {
+            this.workFlowService.completeTask(workFlowVo);
+            resultMap.put("msg","任务完成成功");
+        }catch (Exception e){
+            resultMap.put("msg","任务完成失败");
+            e.printStackTrace();
+        }
+        return resultMap;
     }
 
 

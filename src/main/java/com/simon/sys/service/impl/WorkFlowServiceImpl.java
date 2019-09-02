@@ -7,8 +7,10 @@ import java.util.zip.ZipInputStream;
 
 import com.simon.sys.constast.SYSConstast;
 import com.simon.sys.domain.LeaveBill;
+import com.simon.sys.domain.User;
 import com.simon.sys.mapper.LeaveBillMapper;
 import com.simon.sys.utils.SessionUtils;
+import com.simon.sys.vo.act.ActCommentEntity;
 import com.simon.sys.vo.act.ActTaskEntity;
 import org.activiti.engine.FormService;
 import org.activiti.engine.HistoryService;
@@ -17,12 +19,14 @@ import org.activiti.engine.ManagementService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
+import org.activiti.engine.impl.identity.Authentication;
 import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import org.activiti.engine.impl.pvm.PvmTransition;
 import org.activiti.engine.impl.pvm.process.ActivityImpl;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.Comment;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -163,6 +167,8 @@ public class WorkFlowServiceImpl implements WorkFlowService{
 		return inputStream;
 	}
 
+
+
 	@Override
 	public void startProcess(Integer leaveBillId) {
 
@@ -247,6 +253,96 @@ public class WorkFlowServiceImpl implements WorkFlowService{
 			}
 		}
 		return names;
+	}
+
+	@Override
+	public DataGridView queryAllCommentByTaskId(String taskId) {
+
+		//当前任务的批注
+//		List<Comment> taskComments = this.taskService.getTaskComments(taskId);
+
+		//获取整个流程实例的批注信息
+		Task task = this.taskService.createTaskQuery().taskId(taskId).singleResult();
+		String processInstanceId = task.getProcessInstanceId();
+		List<Comment> processInstanceComments = this.taskService.getProcessInstanceComments(processInstanceId);
+		Long count= Long.valueOf(processInstanceComments.size());
+		ArrayList<ActCommentEntity> actCommentEntities = new ArrayList<>();
+		if (processInstanceComments!=null&&processInstanceComments.size()>0){
+			for (Comment comment:processInstanceComments
+			) {
+				ActCommentEntity actCommentEntity=new ActCommentEntity();
+				BeanUtils.copyProperties(comment,actCommentEntity);
+				actCommentEntities.add(actCommentEntity);
+			}
+		}
+		return new DataGridView(count,actCommentEntities);
+	}
+
+	@Override
+	public void completeTask(WorkFlowVo workFlowVo) {
+		String taskId = workFlowVo.getTaskId();
+		String outcome = workFlowVo.getOutcome();
+		Integer leaveBillId = workFlowVo.getId();
+		String comment = workFlowVo.getComment();
+
+		//添加批注人名字
+		User currentUser = SessionUtils.getCurrentUser();
+
+		//当前线程局部变量
+		Authentication.setAuthenticatedUserId(String.valueOf(currentUser.getId()));
+		//添加批注信息
+		Task task = this.taskService.createTaskQuery().taskId(taskId).singleResult();
+		String processInstanceId = task.getProcessInstanceId();
+
+		this.taskService.addComment(taskId,processInstanceId,"["+comment+"]"+comment);
+
+		//完成任务
+		HashMap<String, Object> variables = new HashMap<>();
+
+		variables.put("outcome",outcome);
+
+		this.taskService.complete(taskId,variables);
+
+		//判断任务是否结束
+		ProcessInstance processInstance =
+				this.runtimeService.createProcessInstanceQuery()
+						.processInstanceId(processInstanceId).singleResult();
+		if (null==processInstance){
+			LeaveBill leaveBill = new LeaveBill();
+			leaveBill.setId(leaveBillId);
+			//流程结束
+			if (outcome.equals("放弃")){
+				leaveBill.setState(SYSConstast.STATE_LEAVEBILL_THIRD);
+			}else {
+				leaveBill.setState(SYSConstast.STATE_LEAVEBILL_SECOND);
+			}
+			this.leaveBillMapper.updateByPrimaryKeySelective(leaveBill);
+		}
+	}
+
+	@Override
+	public Map<String, Object> queryCoordinateByTaskId(String taskId) {
+
+		Task task = this.taskService.createTaskQuery().taskId(taskId).singleResult();
+		String processDefinitionId = task.getProcessDefinitionId();
+		ProcessDefinitionEntity processDefinition = (ProcessDefinitionEntity) this.repositoryService
+				.createProcessDefinitionQuery()
+				.processDefinitionId(processDefinitionId).singleResult();
+		String processInstanceId = task.getProcessInstanceId();
+		ProcessInstance processInstance = this.runtimeService.createProcessInstanceQuery()
+				.processInstanceId(processInstanceId).singleResult();
+		String activityId = processInstance.getActivityId();
+		ActivityImpl activity = processDefinition.findActivity(activityId);
+		int activityX = activity.getX();
+		int activityY = activity.getY();
+		int activityHeight = activity.getHeight();
+		int activityWidth = activity.getWidth();
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("activityX",activityX);
+		map.put("activityY",activityY);
+		map.put("activityHeight",activityHeight);
+		map.put("activityWidth",activityWidth);
+		return map;
 	}
 
 

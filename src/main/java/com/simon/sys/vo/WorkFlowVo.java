@@ -17,8 +17,27 @@ public class WorkFlowVo{
 	private Integer id;
 
 	private String taskId;
-	
-	
+
+	private String outcome;
+
+	private String comment;
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+
+	public String getOutcome() {
+		return outcome;
+	}
+
+	public void setOutcome(String outcome) {
+		this.outcome = outcome;
+	}
+
 	//流程部署名称
 	private String deploymentName;
 	
