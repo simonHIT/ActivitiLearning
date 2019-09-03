@@ -39,4 +39,6 @@ public interface WorkFlowService {
 
 	public Map<String,Object> queryCoordinateByTaskId(String taskId);
 
+	public DataGridView queryAllCommentByLeaveBillId(Integer leaveBillId);
+
 }

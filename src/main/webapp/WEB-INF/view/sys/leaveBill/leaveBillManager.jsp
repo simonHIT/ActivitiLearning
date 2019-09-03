@@ -65,12 +65,12 @@
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
     {{#  } else if(d.state==1){ }}
-    <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="view">审批查询</a>
+    <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="viewApprovalProcess">审批查询</a>
     {{#  } else if(d.state==2){ }}
-    <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="view">审批查询</a>
+    <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="viewApprovalProcess">审批查询</a>
     {{#  } else if(d.state==3){ }}
     <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
-    <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="view">审批查询</a>
+    <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="viewApprovalProcess">审批查询</a>
     {{#  } }}
 </script>
 <script type="text/javascript" src="${simonBasePath }/resources/layui/layui.js"></script>
@@ -210,8 +210,8 @@
                         layer.close(index);
                     })
                 });
-            } else if (layEvent === "view") {
-                show(data.id);
+            } else if (layEvent === "viewApprovalProcess") {
+                viewApprovalProcess(data);
             } else if (layEvent === "startProcess") {
                 startProcess(data);
             }
@@ -240,12 +240,12 @@
             }
         }
 
-        function show(id) {
+        function viewApprovalProcess(data) {
             var index = layui.layer.open({
-                title: "查看请假单",
+                title: "查看审批进度["+data.title+"]",
                 type: 2,
                 area: ["800px", "500px"],
-                content: "${simonBasePath }/leaveBill/showLeaveBill.action?id=" + id,
+                content: "${simonBasePath }/workFlow/toViewApprovalProcess.action?id=" +data.id,
                 success: function (layero, index) {
                     setTimeout(function () {
                         layui.layer.tips('点击此处返回请假单列表', '.layui-layer-setwin .layui-layer-close', {

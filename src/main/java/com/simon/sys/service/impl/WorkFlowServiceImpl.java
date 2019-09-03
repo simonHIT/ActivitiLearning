@@ -324,14 +324,17 @@ public class WorkFlowServiceImpl implements WorkFlowService{
 	public Map<String, Object> queryCoordinateByTaskId(String taskId) {
 
 		Task task = this.taskService.createTaskQuery().taskId(taskId).singleResult();
+		String taskName = task.getName();
 		String processDefinitionId = task.getProcessDefinitionId();
-		ProcessDefinitionEntity processDefinition = (ProcessDefinitionEntity) this.repositoryService
-				.createProcessDefinitionQuery()
-				.processDefinitionId(processDefinitionId).singleResult();
 		String processInstanceId = task.getProcessInstanceId();
+
 		ProcessInstance processInstance = this.runtimeService.createProcessInstanceQuery()
 				.processInstanceId(processInstanceId).singleResult();
 		String activityId = processInstance.getActivityId();
+
+		ProcessDefinitionEntity processDefinition =
+				(ProcessDefinitionEntity) this.repositoryService.getProcessDefinition(processDefinitionId);
+
 		ActivityImpl activity = processDefinition.findActivity(activityId);
 		int activityX = activity.getX();
 		int activityY = activity.getY();
@@ -343,6 +346,17 @@ public class WorkFlowServiceImpl implements WorkFlowService{
 		map.put("activityHeight",activityHeight);
 		map.put("activityWidth",activityWidth);
 		return map;
+	}
+
+	@Override
+	public DataGridView queryAllCommentByLeaveBillId(Integer leaveBillId) {
+
+		String processDefinitionKey = LeaveBill.class.getSimpleName();
+		String businessKey = processDefinitionKey + ":" + leaveBillId;
+		Task task = this.taskService.createTaskQuery()
+				.processInstanceBusinessKey(businessKey).singleResult();
+		DataGridView dataGridView = this.queryAllCommentByTaskId(task.getId());
+		return dataGridView;
 	}
 
 

@@ -17,16 +17,16 @@
         }
     </style>
 </head>
-<body style="text-align: center">
+<body >
 <c:if test="${not empty workFlowVo.deploymentId}">
     <img src="${simonBasePath}/workFlow/viewProcessImage.action?deploymentId=${workFlowVo.deploymentId}" alt="流程图">
 </c:if>
 <c:if test="${not empty workFlowVo.taskId}">
     <img src="${simonBasePath}/workFlow/viewProcessImageByTaskId.action?taskId=${workFlowVo.taskId}" alt="流程图">
-    <div style="position: absolute;left:${coordinate.activityX}px;top: ${coordinate.activityY}px;width: ${coordinate.width}px;height: ${coordinate.height} ">
+    <div style="position: absolute;left:${coordinate.get("activityX")}px;
+            top: ${coordinate.get("activityY")}px;width: ${coordinate.get("activityWidth")}px;
+            height: ${coordinate.get("activityHeight")} ">
     </div>
 </c:if>
-
-
 </body>
 </html>

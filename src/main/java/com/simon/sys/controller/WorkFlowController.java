@@ -1,6 +1,7 @@
 package com.simon.sys.controller;
 
 import com.simon.sys.domain.LeaveBill;
+import com.simon.sys.service.LeaveBillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,7 +34,9 @@ public class WorkFlowController {
 
 	@Autowired
 	private WorkFlowService workFlowService;
-	
+
+	@Autowired
+	private LeaveBillService leaveBillService;
 	
 	
 	/**
@@ -242,6 +245,33 @@ public class WorkFlowController {
             e.printStackTrace();
         }
         return resultMap;
+    }
+
+    /**
+     * 跳转查看审批流程界面
+     * @param workFlowVo
+     * @return
+     */
+    @RequestMapping("toViewApprovalProcess")
+    public String toViewApprovalProcess(WorkFlowVo workFlowVo,Model model){
+
+        HashMap<String, Object> resultMap = new HashMap<>();
+        LeaveBill leaveBill = this.leaveBillService.queryLeaveBillById(workFlowVo.getId());
+        model.addAttribute("leaveBill",leaveBill);
+        return "sys/workFlow/viewApprovalProcess";
+    }
+
+    /**
+     * 查看审批进度根据请假单ID
+     * @param workFlowVo
+     * @return
+     */
+    @RequestMapping("viewApprovalProcess")
+    @ResponseBody
+    public DataGridView viewApprovalProcess(WorkFlowVo workFlowVo){
+
+        DataGridView dataGridView = this.workFlowService.queryAllCommentByLeaveBillId(workFlowVo.getId());
+        return dataGridView;
     }
 
 
